@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revision Assignments | MuchiPondo Mathematics</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            color: #243247;
+        }
+
+        header {
+            background: #1f4e79;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd5df;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 22px;
+            padding: 12px 20px;
+            background: #1f4e79;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #163a5b;
+        }
+
+        .message {
+            padding: 12px;
+            background: #e8f4ea;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .error {
+            background: #fdeaea;
+        }
+
+        .links {
+            margin-top: 20px;
+        }
+
+        a {
+            color: #1f4e79;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>MuchiPondo Mathematics</h1>
+        <p>Teacher Revision Assignments</p>
+    </header>
+
+    <main>
+        <div class="panel">
+            <h2>Create a Revision Assignment</h2>
+            <p>Prepare Mathematics practice work for your students.</p>
+
+            {% if message %}
+                <div class="message {% if error %}error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                <label for="title">Assignment Title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    required
+                    maxlength="150"
+                    placeholder="e.g. Algebra Revision Exercise"
+                >
+
+                <label for="topic_id">Mathematics Topic</label>
+                <select id="topic_id" name="topic_id">
+                    <option value="">General Mathematics</option>
+                    {% for topic in topics %}
+                        <option value="{{ topic['id'] }}">
+                            {{ topic['name'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label for="instructions">Instructions</label>
+                <textarea
+                    id="instructions"
+                    name="instructions"
+                    required
+                    placeholder="Explain the work students must complete."
+                ></textarea>
+
+                <label for="due_date">Deadline (Optional)</label>
+                <input
+                    type="date"
+                    id="due_date"
+                    name="due_date"
+                >
+
+                <button type="submit">Save Assignment</button>
+            </form>
+
+            <div class="links">
+<a href="/teacher/assignments/list">Manage My Assignments</a>
+                <a href="/teacher/dashboard">Teacher Dashboard</a>
+                <a href="/logout">Log Out</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

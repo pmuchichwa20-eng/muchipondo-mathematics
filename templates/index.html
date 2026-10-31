@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MuchiPondo Mathematics - O-Level Mathematics</title>
+<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+<meta name="theme-color" content="#1f4e79">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background-color: #1f4e79;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin-top: 8px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome h2 {
+            color: #1f4e79;
+        }
+
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 25px;
+            background-color: #1f4e79;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background-color: #163a5c;
+        }
+
+        .topics {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(200px, 1fr)
+            );
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .topic {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .topic h3 {
+            color: #1f4e79;
+        }
+
+        footer {
+            margin-top: 40px;
+            background-color: #1f4e79;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>MuchiPondo Mathematics</h1>
+
+        <p>
+            O-Level Mathematics Learning Platform
+        </p>
+
+    </header>
+
+
+    <div class="container">
+
+        <div class="welcome">
+
+            <h2>
+                Welcome to MuchiPondo Mathematics
+            </h2>
+
+            <p>
+                Learn Mathematics, practice questions,
+                take quizzes and improve your performance.
+            </p>
+
+            <a href="/register" class="button">
+                Student Registration
+            </a>
+
+            <a href="/questions" class="button">
+                Start Mathematics Quiz
+            </a>
+<a href="/login" class="button">
+    Student Login
+</a>
+<a href="/teacher/login" class="button">
+    Teacher Login
+</a>
+
+<a href="/teacher/register" class="button">
+    Teacher Registration
+<a href="/admin/login" class="button">
+    Administrator Login
+</a>
+</a>
+        </div>
+
+
+        <div class="topics">
+
+            {% for topic in topics %}
+
+            <div class="topic">
+
+                <h3>
+                    {{ topic["name"] }}
+                </h3>
+
+                <p>
+                    {{ topic["description"] }}
+                </p>
+
+                <a href="/questions" class="button">
+                    Start Learning
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <footer>
+
+        <p>
+            MuchiPondo Mathematics © 2026 | O-Level Mathematics
+        </p>
+
+    </footer>
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+        navigator.serviceWorker.register(
+            "{{ url_for('static', filename='service-worker.js') }}"
+        ).catch(function (error) {
+            console.error("Service worker registration failed:", error);
+        });
+    });
+}
+</script>
+
+<div style="text-align:center; margin:25px;">
+  
+</div>
+</body>
+
+</html>

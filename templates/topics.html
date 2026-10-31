@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MuchiPondo Mathematics - Mathematics Topics</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background-color: #1f4e79;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .intro {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .intro h2 {
+            color: #1f4e79;
+        }
+
+        .topics {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(220px, 1fr)
+            );
+
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .topic {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .topic h3 {
+            color: #1f4e79;
+        }
+
+        .topic p {
+            color: #555;
+            min-height: 45px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #1f4e79;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #163a5c;
+        }
+
+        footer {
+            margin-top: 40px;
+            background-color: #1f4e79;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <header>
+
+        <h1>MuchiPondo Mathematics</h1>
+
+        <p>
+            O-Level Mathematics Learning Platform
+        </p>
+
+    </header>
+
+
+    <div class="container">
+
+
+        <div class="intro">
+
+            <h2>
+                Choose a Mathematics Topic
+            </h2>
+
+            <p>
+                Select a topic below to practice questions
+                from that area of Mathematics.
+            </p>
+
+        </div>
+
+
+        <div class="topics">
+
+
+            {% for topic in topics %}
+
+            <div class="topic">
+
+                <h3>
+                    {{ topic["name"] }}
+                </h3>
+
+                <p>
+                    {{ topic["description"] }}
+                </p>
+
+                <a
+                    href="/questions?topic_id={{ topic['id'] }}"
+                    class="button"
+                >
+                    Practice Topic
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+
+        <div style="text-align: center; margin-top: 25px;">
+
+            <a href="/dashboard" class="button">
+                Back to Dashboard
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <footer>
+
+        <p>
+            MuchiPondo Mathematics © 2026 | O-Level Mathematics
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

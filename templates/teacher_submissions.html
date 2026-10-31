@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><title>Student Submissions | MuchiPondo</title>
+<style>
+body{font-family:Arial;background:#f4f7fb;margin:0;color:#243247}
+header{background:#1f4e79;color:white;padding:20px;text-align:center}
+main{max-width:1000px;margin:30px auto;padding:20px}
+.card{background:white;padding:20px;margin:15px 0;border-radius:9px}
+textarea,input{width:100%;padding:10px;box-sizing:border-box;margin:6px 0}
+button{background:#1f4e79;color:white;padding:10px 18px;border:0;border-radius:5px}
+a{color:#1f4e79}
+</style></head><body>
+<header><h1>MuchiPondo Mathematics</h1><h2>Student Submissions</h2></header>
+<main><p><a href="/teacher/assignments/list">Back to Assignments</a></p>
+<h2>{{ assignment['title'] }}</h2>
+{% for sub in submissions %}
+<div class="card"><h3>{{ sub['student_name'] }}</h3>
+<p>Email: {{ sub['student_email'] }}</p>
+<p>Submitted: {{ sub['submitted_at'] }}</p>
+<p>Status: {{ sub['status'] }}</p>
+<p><strong>Student's answers:</strong><br>{{ sub['answer_text'] or 'No typed answer.' }}</p>
+{% if sub['file_path'] %}
+<p><a href="/teacher/submissions/{{ sub['id'] }}/file">Download student's attached work</a></p>
+{% endif %}
+<p>Previous marks: {{ sub['marks'] if sub['marks'] is not none else 'Not marked' }}</p>
+<p>Previous comments: {{ sub['teacher_feedback'] or 'None' }}</p>
+<form method="POST" action="/teacher/submissions/{{ sub['id'] }}/review">
+<label>Marks:</label><input type="number" name="marks" min="0" step="0.5" value="{{ sub['marks'] if sub['marks'] is not none else '' }}">
+<label>Comments for student:</label><textarea name="teacher_feedback" rows="4">{{ sub['teacher_feedback'] or '' }}</textarea>
+<button type="submit">Save Review</button>
+</form></div>
+{% else %}<p>No students have submitted work yet.</p>{% endfor %}
+</main></body></html>

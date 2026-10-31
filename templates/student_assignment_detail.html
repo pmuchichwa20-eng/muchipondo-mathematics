@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><title>Submit Work | MuchiPondo</title>
+<style>
+body{font-family:Arial;background:#f4f7fb;margin:0;color:#243247}
+header{background:#1f4e79;color:white;padding:20px;text-align:center}
+main{max-width:800px;margin:30px auto;padding:20px}
+.card{background:white;padding:25px;border-radius:9px}
+textarea{width:100%;min-height:160px;padding:10px;box-sizing:border-box}
+button{background:#1f4e79;color:white;padding:12px 20px;border:0;border-radius:5px}
+.message{background:#e8f4ea;padding:12px;margin:15px 0}
+</style></head><body>
+<header><h1>MuchiPondo Mathematics</h1><h2>Assignment Submission</h2></header>
+<main><p><a href="/student/assignments">Back to Assignments</a></p>
+<div class="card"><h2>{{ assignment['title'] }}</h2>
+<p>Topic: {{ assignment['topic_name'] or 'General Mathematics' }}</p>
+<p>Teacher: {{ assignment['teacher_name'] or 'Teacher' }}</p>
+<p>Instructions: {{ assignment['instructions'] }}</p>
+<p>Deadline: {{ assignment['due_date'] or 'No deadline' }}</p>
+{% if message %}<div class="message">{{ message }}</div>{% endif %}
+{% if submission %}
+<p><strong>Current status:</strong> {{ submission['status'] }}</p>
+{% if submission['marks'] is not none %}<p>Marks: {{ submission['marks'] }}</p>{% endif %}
+{% if submission['teacher_feedback'] %}<p>Teacher's comments: {{ submission['teacher_feedback'] }}</p>{% endif %}
+{% endif %}
+<form method="POST" enctype="multipart/form-data">
+<label><strong>Type your answers:</strong></label><br><br>
+<textarea name="answer_text" placeholder="Write your Mathematics answers here...">{{ submission['answer_text'] or '' if submission else '' }}</textarea><br><br>
+<label>Or upload handwritten work (PDF, JPG or PNG):</label><br><br>
+<input type="file" name="work_file" accept=".pdf,.jpg,.jpeg,.png"><br><br>
+<button type="submit">Submit My Work</button>
+</form></div></main></body></html>

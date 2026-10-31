@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Dashboard - MuchiPondo Mathematics</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            color: #222;
+        }
+
+        header {
+            background: #1f4e79;
+            color: white;
+            padding: 20px;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #edf2f7;
+        }
+
+        button {
+            background: #1f7a3f;
+            color: white;
+            padding: 9px 13px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .logout {
+            background: #a4262c;
+        }
+
+        .notice {
+            background: #e8f4ea;
+            padding: 12px;
+            border-radius: 5px;
+        }
+
+        .empty {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Administrator Dashboard</h1>
+        <p>MuchiPondo Mathematics</p>
+        <p>Logged in as: {{ session.get('admin_email', '') }}</p>
+
+        <form method="POST" action="/admin/logout">
+            <button class="logout" type="submit">Log Out</button>
+        </form>
+    </header>
+
+    <main>
+        {% if request.args.get('message') %}
+            <p class="notice">
+                {{ request.args.get('message') }}
+            </p>
+        {% endif %}
+
+        <section>
+            <h2>Pending Teacher Approvals</h2>
+
+            {% if pending_teachers %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Registration Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for teacher in pending_teachers %}
+                            <tr>
+                                <td>{{ teacher['name'] }}</td>
+                                <td>{{ teacher['email'] }}</td>
+                                <td>{{ teacher['created_at'] }}</td>
+                                <td>
+                                    <form
+                                        method="POST"
+                                        action="/admin/approve-teacher/{{ teacher['id'] }}"
+                                        onsubmit="return confirm('Approve this teacher account?');"
+                                    >
+                                        <button type="submit">
+                                            Approve
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="empty">
+                    There are no teachers waiting for approval.
+                </p>
+            {% endif %}
+        </section>
+
+        <section>
+            <h2>Approved Teachers</h2>
+
+            {% if approved_teachers %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Registration Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for teacher in approved_teachers %}
+                            <tr>
+                                <td>{{ teacher['name'] }}</td>
+                                <td>{{ teacher['email'] }}</td>
+                                <td>{{ teacher['created_at'] }}</td>
+                                <td>Approved</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="empty">
+                    No teachers have been approved yet.
+                </p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

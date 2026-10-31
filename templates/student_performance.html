@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance - MuchiPondo Mathematics</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: #1f4e79;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            width: 94%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .card, .table-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            color: #555;
+            font-size: 15px;
+            margin-top: 0;
+        }
+
+        .number {
+            color: #1f4e79;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #eaf1f8;
+            color: #1f4e79;
+        }
+
+        .button {
+            display: inline-block;
+            margin: 0 8px 20px 0;
+            padding: 10px 16px;
+            background: #1f4e79;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .empty {
+            padding: 20px;
+            text-align: center;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>MuchiPondo Mathematics</h1>
+        <p>Student Performance Report</p>
+    </header>
+
+    <main>
+        <a class="button" href="/teacher/dashboard">Back to Dashboard</a>
+        <a class="button" href="/logout">Log Out</a>
+
+        <div class="summary">
+            <div class="card">
+                <h3>Registered Students</h3>
+                <div class="number">{{ total_students }}</div>
+            </div>
+
+            <div class="card">
+                <h3>Quiz Attempts</h3>
+                <div class="number">{{ total_attempts }}</div>
+            </div>
+
+            <div class="card">
+                <h3>Average Quiz Percentage</h3>
+                <div class="number">{{ "%.1f"|format(average_percentage) }}%</div>
+            </div>
+        </div>
+
+        <section class="table-box">
+            <h2>Student Quiz Results</h2>
+            <p>Review each student's recorded quiz performance.</p>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Date Taken</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for result in results %}
+                        <tr>
+                            <td>{{ result["name"] }}</td>
+                            <td>{{ result["email"] }}</td>
+
+                            {% if result["result_id"] is none %}
+                                <td>No quiz taken</td>
+                                <td>—</td>
+                                <td>—</td>
+                            {% else %}
+                                <td>
+                                    {{ result["score"] }} /
+                                    {{ result["total_marks"] }}
+                                </td>
+                                <td>
+                                    {{ "%.1f"|format(result["percentage"]) }}%
+                                </td>
+                                <td>{{ result["date_taken"] }}</td>
+                            {% endif %}
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="empty">
+                                No student records found.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

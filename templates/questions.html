@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MuchiPondo Mathematics - Mathematics Questions</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background-color: #1f4e79;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .question {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question h3 {
+            color: #1f4e79;
+        }
+
+        .option {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f4f7fb;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background-color: #e4edf7;
+        }
+
+        .topic {
+            font-size: 14px;
+            color: #666;
+        }
+
+        button {
+            background-color: #1f4e79;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #163a5c;
+        }
+
+        .score {
+            background-color: #dff0d8;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .percentage {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .wrong {
+            color: red;
+        }
+
+        footer {
+            margin-top: 40px;
+            background-color: #1f4e79;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <header>
+
+        <h1>MuchiPondo Mathematics</h1>
+
+        <p>
+            O-Level Mathematics Practice Questions
+        </p>
+
+    </header>
+
+
+    <div class="container">
+
+        <h2>Mathematics Questions</h2>
+
+
+        {% if score is not none %}
+
+        <div class="score">
+
+            <h2>
+                Your Score:
+                {{ score }} / {{ total_marks }}
+            </h2>
+
+            <p class="percentage">
+                Percentage:
+                {{ "%.1f"|format(percentage) }}%
+            </p>
+
+        </div>
+
+
+        <h2>Quiz Results</h2>
+
+
+        {% for result in results %}
+
+        <div class="question">
+
+            <h3>
+                {{ loop.index }}.
+                {{ result["question"] }}
+            </h3>
+
+
+            {% if result["correct"] %}
+
+            <p class="correct">
+
+                <strong>
+                    Correct ✓
+                </strong>
+
+            </p>
+
+            {% else %}
+
+            <p class="wrong">
+
+                <strong>
+                    Wrong ✗
+                </strong>
+
+            </p>
+
+            {% endif %}
+
+
+            <p>
+
+                <strong>
+                    Your answer:
+                </strong>
+
+                {{ result["your_answer"] }}
+
+            </p>
+
+
+            {% if not result["correct"] %}
+
+            <p>
+
+                <strong>
+                    Correct answer:
+                </strong>
+
+                {{ result["correct_answer"] }}
+
+            </p>
+
+            {% endif %}
+
+
+            <p>
+
+                <strong>
+                    Explanation:
+                </strong>
+
+                {{ result["explanation"] }}
+
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+
+
+<form action="/questions{% if request.args.get('topic_id') %}?topic_id={{ request.args.get('topic_id') }}{% endif %}" method="POST">
+
+
+            {% for question in questions %}
+
+            <div class="question">
+
+                <p class="topic">
+
+                    Topic:
+                    {{ question["topic_name"] }}
+
+                </p>
+
+
+                <h3>
+
+                    {{ loop.index }}.
+                    {{ question["question"] }}
+
+                </h3>
+
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="question_{{ question['id'] }}"
+                        value="A"
+                    >
+
+                    A.
+                    {{ question["option_a"] }}
+
+                </label>
+
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="question_{{ question['id'] }}"
+                        value="B"
+                    >
+
+                    B.
+                    {{ question["option_b"] }}
+
+                </label>
+
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="question_{{ question['id'] }}"
+                        value="C"
+                    >
+
+                    C.
+                    {{ question["option_c"] }}
+
+                </label>
+
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="question_{{ question['id'] }}"
+                        value="D"
+                    >
+
+                    D.
+                    {{ question["option_d"] }}
+
+                </label>
+
+
+            </div>
+
+            {% endfor %}
+
+
+            <button type="submit">
+                Submit Quiz
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+    <footer>
+
+        <p>
+            MuchiPondo Mathematics © 2026 | O-Level Mathematics
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

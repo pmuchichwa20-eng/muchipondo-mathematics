@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Feedback - MuchiPondo Mathematics</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: #1f4e79;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 900px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 7px;
+            font-weight: bold;
+        }
+
+        select, textarea {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        button, .back {
+            display: inline-block;
+            background: #1f4e79;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        .notice {
+            padding: 12px;
+            background: #e8f5e9;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .error {
+            background: #ffebee;
+        }
+
+        .feedback {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .feedback:last-child {
+            border-bottom: none;
+        }
+
+        .date {
+            color: #666;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>MuchiPondo Mathematics</h1>
+        <p>Teacher Feedback for Students</p>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <h2>Write Student Feedback</h2>
+
+            <p>
+                Select a student and provide constructive comments
+                about their Mathematics performance, progress,
+                strengths, or areas that need improvement.
+            </p>
+
+            {% if success_message %}
+                <div class="notice">{{ success_message }}</div>
+            {% endif %}
+
+            {% if message %}
+                <div class="notice error">{{ message }}</div>
+            {% endif %}
+
+            <form method="POST" action="/teacher/feedback">
+                <label for="student_id">Select Student</label>
+
+                <select id="student_id" name="student_id" required>
+                    <option value="">-- Choose a student --</option>
+
+                    {% for student in students %}
+                        <option value="{{ student.id }}">
+                            {{ student.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label for="message">Feedback Comment</label>
+
+                <textarea
+                    id="message"
+                    name="message"
+                    maxlength="2000"
+                    required
+                    placeholder="Write feedback about the student's strengths, progress, and areas needing improvement..."
+                ></textarea>
+
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Previously Submitted Feedback</h2>
+
+            {% if feedback_list %}
+                {% for item in feedback_list %}
+                    <div class="feedback">
+                        <h3>{{ item.student_name }}</h3>
+                        <p>{{ item.message }}</p>
+                        <p class="date">
+                            Submitted: {{ item.created_at }}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>
+                    You have not submitted any student feedback yet.
+                </p>
+            {% endif %}
+        </div>
+
+        <a class="back" href="/teacher/dashboard">
+            Back to Teacher Dashboard
+        </a>
+    </main>
+</body>
+</html>

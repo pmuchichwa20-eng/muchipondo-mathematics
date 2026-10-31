@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html><head><title>My Assignments | MuchiPondo</title>
+<style>
+body{font-family:Arial;background:#f4f7fb;margin:0;color:#243247}
+header{background:#1f4e79;color:white;padding:20px;text-align:center}
+main{max-width:900px;margin:30px auto;padding:20px}
+.card{background:white;padding:20px;margin:15px 0;border-radius:9px}
+a{color:#1f4e79} .button{display:inline-block;background:#1f4e79;color:white;padding:10px 15px;text-decoration:none;border-radius:5px}
+</style></head><body>
+<header><h1>MuchiPondo Mathematics</h1><h2>My Assignments</h2></header>
+<main><p><a href="/dashboard">Student Dashboard</a> | <a href="/logout">Log Out</a></p>
+{% for a in assignments %}
+<div class="card"><h3>{{ a['title'] }}</h3>
+<p>Topic: {{ a['topic_name'] or 'General Mathematics' }}</p>
+<p>Teacher: {{ a['teacher_name'] or 'Teacher' }}</p>
+<p>Deadline: {{ a['due_date'] or 'No deadline' }}</p>
+<p>Status: {{ a['submission_status'] or 'Not submitted' }}</p>
+<a class="button" href="/student/assignments/{{ a['id'] }}">Open Assignment</a>
+</div>
+{% else %}<p>No published assignments are available.</p>{% endfor %}
+</main></body></html>

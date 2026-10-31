@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Assignments | MuchiPondo Mathematics</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            color: #243247;
+        }
+
+        header {
+            background: #1f4e79;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .panel {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .assignment {
+            border: 1px solid #d9e1ea;
+            padding: 18px;
+            margin-top: 15px;
+            border-radius: 7px;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .published {
+            color: #18733b;
+        }
+
+        .draft {
+            color: #8a5b00;
+        }
+
+        button {
+            padding: 10px 16px;
+            margin-top: 10px;
+            background: #1f4e79;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #163a5b;
+        }
+
+        a {
+            color: #1f4e79;
+            margin-right: 15px;
+        }
+
+        .empty {
+            color: #596579;
+        }
+
+        .message {
+            padding: 12px;
+            background: #e8f4ea;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>MuchiPondo Mathematics</h1>
+        <p>Manage Revision Assignments</p>
+    </header>
+
+    <main>
+        <div class="panel">
+            <h2>Your Revision Assignments</h2>
+
+            {% if message %}
+                <div class="message">{{ message }}</div>
+            {% endif %}
+
+            <p>
+                <a href="/teacher/assignments">Create New Assignment</a>
+                <a href="/teacher/dashboard">Teacher Dashboard</a>
+                <a href="/logout">Log Out</a>
+            </p>
+
+            {% if assignments %}
+                {% for assignment in assignments %}
+                    <div class="assignment">
+                        <h3>{{ assignment['title'] }}</h3>
+
+                        <p>
+                            <strong>Topic:</strong>
+                            {{ assignment['topic_name'] or 'General Mathematics' }}
+                        </p>
+
+                        <p>
+                            <strong>Instructions:</strong><br>
+                            {{ assignment['instructions'] }}
+                        </p>
+
+                        <p>
+                            <strong>Deadline:</strong>
+                            {{ assignment['due_date'] or 'No deadline set' }}
+                        </p>
+
+                        <p class="status {% if assignment['is_published'] %}published{% else %}draft{% endif %}">
+                            Status:
+                            {% if assignment['is_published'] %}
+                                Published
+                            {% else %}
+                                Draft
+                            {% endif %}
+                        </p>
+
+                        {% if assignment['is_published'] %}
+                            <p><a href="/teacher/assignments/{{ assignment['id'] }}/submissions">View Student Submissions</a></p>
+                        {% endif %}
+
+                        {% if not assignment['is_published'] %}
+                            <form method="POST"
+                                  action="/teacher/assignments/{{ assignment['id'] }}/publish">
+                                <button type="submit">Publish Assignment</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="empty">
+                    You have not created any revision assignments yet.
+                </p>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,27 @@
+
+
+{
+  "name": "MuchiPondo Maths",
+  "short_name": "MuchiPondo",
+  "description": "MuchiPondo EduTech: O-Level Mathematics practice for Zimbabwean students.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#1f4e79",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/static/icons/mp-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icons/mp-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
